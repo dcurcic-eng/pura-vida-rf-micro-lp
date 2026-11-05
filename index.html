@@ -631,41 +631,8 @@ h1,h2,h3,h4,p{margin:0;}
   display:flex;flex-direction:column;}
 .form-title{font-family:var(--font-display);font-size:40px;line-height:1.15;letter-spacing:-.8px;color:var(--navy);}
 .form-body{padding-top:28px;display:flex;flex-direction:column;gap:20px;}
-.row2{display:flex;gap:16px;}
-.field{flex:1 1 0;display:flex;flex-direction:column;gap:8px;min-width:0;}
-.field label{font-size:13px;font-weight:600;line-height:1.2;color:var(--navy);}
-.field input,.field textarea{
-  width:100%;background:var(--white);border:1px solid var(--hairline-strong);
-  padding:0 16px;height:52px;font-size:15px;color:var(--navy);
-  transition:border-color .3s ease,box-shadow .3s ease;
-}
-.field textarea{height:104px;padding:15px 16px;resize:vertical;line-height:1.4;}
-.field input::placeholder,.field textarea::placeholder{color:var(--ink-muted);}
-.field input:focus,.field textarea:focus{outline:0;border-color:var(--teal);
-  box-shadow:0 0 0 3px rgba(1,153,150,.12);}
-.consent{padding-top:4px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;}
-.consent input{position:absolute;opacity:0;width:0;height:0;}
-.consent .box{
-  width:18px;height:18px;flex:0 0 18px;background:var(--teal);display:grid;place-items:center;
-  transition:background-color .3s ease;
-}
-.consent input:not(:checked) + .box{background:transparent;border:1px solid var(--hairline-strong);}
-.consent .box svg{width:12px;height:12px;stroke:#fff;fill:none;stroke-width:2.4;
-  opacity:1;transition:opacity .2s ease;}
-.consent input:not(:checked) + .box svg{opacity:0;}
-.consent .ctext{font-size:12px;line-height:1.5;color:var(--ink-muted);}
-.form-submit{
-  height:60px;width:100%;background:var(--teal);color:var(--inverse);
-  font-size:16px;font-weight:500;letter-spacing:.32px;
-  position:relative;overflow:hidden;display:grid;place-items:center;
-}
-.form-submit::after{content:"";position:absolute;inset:0;background:var(--navy);
-  transform:translateY(101%);transition:transform .45s cubic-bezier(.2,.7,.3,1);}
-.form-submit span{position:relative;z-index:1;}
-.form-submit:hover::after{transform:translateY(0);}
+#myFormEmbed{display:block;width:100%;min-height:560px;border:0;}
 .form-privacy{font-size:13px;line-height:1.4;color:var(--ink-muted);text-align:center;}
-.form-thanks{display:none;padding:28px 0 0;font-size:16px;line-height:1.6;color:var(--navy);}
-.form-thanks.on{display:block;}
 
 /* ============================================================
    FAQ
@@ -886,7 +853,6 @@ h1,h2,h3,h4,p{margin:0;}
   .cta-action .ring-cta .label,.res-cta-wrap .ring-cta .label{font-size:14px;}
   .quiz-lockup .q2{font-size:48px;letter-spacing:-1.4px;}
   .quiz-q{font-size:21px;}
-  .row2{flex-direction:column;}
   .stat{flex:1 1 100%;}
   .stat .num{font-size:56px;}
   .rating-block{flex-direction:column;align-items:flex-start;gap:12px;}
@@ -1417,38 +1383,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   <div class="offer-form">
     <h2 class="form-title" data-rv>Claim my free consult</h2>
-    <form class="form-body" id="consultForm" novalidate data-rv>
-      <div class="row2">
-        <div class="field">
-          <label for="fname">First name</label>
-          <input id="fname" name="fname" type="text" placeholder="Jane" required autocomplete="given-name">
-        </div>
-        <div class="field">
-          <label for="lname">Last name</label>
-          <input id="lname" name="lname" type="text" placeholder="Smith" required autocomplete="family-name">
-        </div>
-      </div>
-      <div class="field">
-        <label for="email">Email</label>
-        <input id="email" name="email" type="email" placeholder="jane@email.com" required autocomplete="email">
-      </div>
-      <div class="field">
-        <label for="phone">Phone</label>
-        <input id="phone" name="phone" type="tel" placeholder="301 555 0123" required autocomplete="tel">
-      </div>
-      <div class="field">
-        <label for="improve">What would you like to improve?</label>
-        <textarea id="improve" name="improve" placeholder="Jawline laxity and some acne scarring on my cheeks."></textarea>
-      </div>
-      <label class="consent">
-        <input type="checkbox" id="consent" checked>
-        <span class="box"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
-        <span class="ctext">By submitting this form you agree to receive marketing text messages, alerts and notifications from Pura Vida Medspa. Message frequency may vary. Message and data rates may apply. Reply STOP to opt out at any time.</span>
-      </label>
-      <button class="form-submit" type="submit"><span>Claim My Free Consult + $250 Off</span></button>
+    <div class="form-body" data-rv>
+      <iframe src="https://api.aevadigital.com/api/v1/forms/598/form-view/" title="Claim my free consult" width="100%"
+        onload="onPageLoad('production')" id="myFormEmbed" frameborder="0"></iframe>
+      <script type="text/javascript" src="https://aeva-static-bucket.s3.amazonaws.com/static/js/embedAevaScript.js"></script>
       <p class="form-privacy">Your information stays private. No spam, ever.</p>
-    </form>
-    <p class="form-thanks" id="formThanks">Thank you. Your request is in. Our team will call you within one business day to book your free consult and hold your $250.</p>
+    </div>
   </div>
 </section>
 
@@ -1882,31 +1822,6 @@ Closed</p>
     }
     if (img.complete && img.naturalWidth === 0) fallback();
     img.addEventListener('error', fallback);
-  });
-
-  /* ---------------------------------------------------------
-     FORM
-     --------------------------------------------------------- */
-  var form = document.getElementById('consultForm');
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var ok = true;
-    ['fname', 'lname', 'email', 'phone'].forEach(function (id) {
-      var f = document.getElementById(id);
-      if (!f.value.trim() || (id === 'email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.value))) {
-        ok = false;
-        f.style.borderColor = '#c0392b';
-        if (hasGSAP && !reduced) gsap.fromTo(f, { x: -6 }, { x: 0, duration: 0.45, ease: 'elastic.out(1,0.35)' });
-      } else {
-        f.style.borderColor = '';
-      }
-    });
-    if (!ok) return;
-    form.style.display = 'none';
-    document.getElementById('formThanks').classList.add('on');
-    if (hasGSAP && !reduced) {
-      gsap.from('#formThanks', { y: 20, autoAlpha: 0, duration: 0.6, ease: 'power3.out' });
-    }
   });
 
   /* ---------------------------------------------------------
